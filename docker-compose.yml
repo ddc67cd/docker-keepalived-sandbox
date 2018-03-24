@@ -1,0 +1,46 @@
+version: '2'
+services:
+  left:
+    image: arcts/keepalived
+    networks:
+      sandbox:
+        ipv4_address: 10.5.0.10
+    volumes:
+      - ./left.conf:/etc/keepalived/keepalived.conf:ro
+    environment:
+      - KEEPALIVED_AUTOCONF=false
+    cap_add:
+      - NET_ADMIN
+
+  middle:
+    image: arcts/keepalived
+    networks:
+      sandbox:
+        ipv4_address: 10.5.0.11
+    volumes:
+      - ./middle.conf:/etc/keepalived/keepalived.conf:ro
+    environment:
+      - KEEPALIVED_AUTOCONF=false
+    cap_add:
+      - NET_ADMIN
+
+  right:
+    image: arcts/keepalived
+    networks:
+      sandbox:
+        ipv4_address: 10.5.0.12
+    volumes:
+      - ./right.conf:/etc/keepalived/keepalived.conf:ro
+    environment:
+      - KEEPALIVED_AUTOCONF=false
+    cap_add:
+      - NET_ADMIN
+
+
+networks:
+  sandbox:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
